@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                git 'https://github.com/wrpsj2004/E-Commerce-FE-Homepage.git'
+                git 'https://github.com/wrpsj2004/E-Commerce-FE-Homepage'
                 bat "npm install"
             }
         }
