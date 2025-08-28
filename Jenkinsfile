@@ -11,10 +11,19 @@ pipeline {
 
         stage('Scan') {
             steps {
-                withSonarQubeEnv(installationName: 'sq1') {
-                    bat "npm install sonar-scanner"
-                    bat 'npx sonar-scanner -X -X -Dsonar.projectKey=mywebapp'
-                }
+withSonarQubeEnv('sq1') {
+  script {
+    def scannerHome = tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+    bat """
+      "${scannerHome}\\bin\\sonar-scanner.bat" ^
+        -Dsonar.projectKey=mywebapp ^
+        -Dsonar.projectName="mywebapp" ^
+        -Dsonar.sources=. ^
+        -Dsonar.sourceEncoding=UTF-8 ^
+        -Dsonar.exclusions=node_modules/**,build/**,dist/**,**/*.spec.*,**/*.test.*
+    """
+  }
+}
             }
         }
     }
